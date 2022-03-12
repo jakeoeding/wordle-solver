@@ -43,3 +43,18 @@ class Wordle:
     def possible_answers(self, initial_state, warm_letters, cold_letters):
         search_results = self.search(initial_state, warm_letters, cold_letters)
         return search_results & self.master_word_list
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-k', help='Known letter positions: use an underscore (_) for unknown positions; e.g. "a__le"', type=str, default=[None] * 5)
+    parser.add_argument('-w', help='Warm letters: letters that are in the word in some position; e.g. "sre"', type=str, default=set())
+    parser.add_argument('-c', help='Cold letters: letters that are not in the word; pass a a string; e.g. "xqju"', type=str, default=set())
+    args = parser.parse_args()
+    initial_state = [char if char != '_' else None for char in args.k]
+    warm_letters = set(list(args.w))
+    cold_letters = set(list(args.c))
+    with open('words.txt') as f:
+        word_list = [line.strip() for line in f.readlines()]
+    wordle = Wordle(word_list)
+    print(wordle.possible_answers(initial_state, warm_letters, cold_letters))
