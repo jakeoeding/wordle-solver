@@ -1,32 +1,45 @@
 import string
 
 class Wordle:
-    def __init__(word_list):
+    def __init__(self, word_list, alphabet=string.ascii_lowercase):
         self.master_word_list = set(word_list)
         self.word_length = len(word_list[0])
+        self.alphabet = alphabet
 
-    def transition(state, letter):
-        pass
+    def transition(self, state, letter, index):
+        new_state = state[:]
+        new_state[index] = letter
+        return new_state
 
-    def successors(state, available_letters):
-        pass
+    def successors(self, state, available_letters):
+        if None not in state:
+            return []
 
-    def is_valid(state, required_letters):
-        pass
+        slot_to_fill = state.index(None)
+        for letter in available_letters:
+            yield self.transition(state, letter, slot_to_fill)
 
-    def is_terminal(state):
-        pass
+    def is_valid(self, state, required_letters):
+        return required_letters.issubset(set(state))
 
-    def search(initial_state, warm_letters, cold_letters):
+    def is_terminal(self, state):
+        fixed_letters = len([letter for letter in state if letter])
+        return fixed_letters == self.word_length
+
+    def search(self, initial_state, warm_letters, cold_letters):
         possible_words = set()
-        available_letters = set(string.ascii_lowercase) - cold_letters
+        available_letters = set(self.alphabet) - cold_letters
         frontier = [initial_state]
         while frontier:
             current = frontier.pop(0)
             for state in self.successors(current, available_letters):
-                if self.is_terminal(state)
+                if self.is_terminal(state):
                     if self.is_valid(state, warm_letters):
                         possible_words.add(''.join(state))
                 else:
                     frontier.append(state)
-        return possible_words & self.master_word_list
+        return possible_words
+
+    def possible_answers(self, initial_state, warm_letters, cold_letters):
+        search_results = self.search(initial_state, warm_letters, cold_letters)
+        return search_results & self.master_word_list
