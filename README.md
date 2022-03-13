@@ -29,3 +29,6 @@ There are a few different arguments for the CLI. All are optional.
 Then I should run the program with the following command:
 
 `python3 wordle.py -k f____ -w co -c ratelk`
+
+## License
+MIT
