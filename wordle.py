@@ -19,12 +19,11 @@ class Wordle:
         for letter in available_letters:
             yield self.transition(state, letter, slot_to_fill)
 
-    def is_valid(self, state, required_letters):
-        return required_letters.issubset(set(state))
+    def is_valid(self, state, warm_letters):
+        return warm_letters.issubset(set(state))
 
     def is_terminal(self, state):
-        fixed_letters = len([letter for letter in state if letter])
-        return fixed_letters == self.word_length
+        return all(state)
 
     def search(self, initial_state, warm_letters, cold_letters):
         possible_words = set()
