@@ -6,6 +6,14 @@ class Solver:
         self.word_length = len(word_list[0])
         self.alphabet = alphabet
 
+    def available_letters(self, warm_letters, cold_letters):
+        all_available_letters = set(self.alphabet) - cold_letters
+        letters_by_slot = [all_available_letters.copy() for _ in range(self.word_length)]
+        for i, to_remove_from_slot in enumerate(warm_letters):
+            if to_remove_from_slot:
+                letters_by_slot[i] -= to_remove_from_slot
+        return letters_by_slot
+
     def transition(self, state, letter, index):
         new_state = state[:]
         new_state[index] = letter
@@ -16,18 +24,19 @@ class Solver:
             return []
 
         slot_to_fill = state.index(None)
-        for letter in available_letters:
+        for letter in available_letters[slot_to_fill]:
             yield self.transition(state, letter, slot_to_fill)
 
     def is_valid(self, state, warm_letters):
-        return warm_letters.issubset(set(state))
+        all_warm_letters = set().union(*warm_letters)
+        return all_warm_letters.issubset(set(state))
 
     def is_terminal(self, state):
         return all(state)
 
     def search(self, initial_state, warm_letters, cold_letters):
         possible_words = set()
-        available_letters = set(self.alphabet) - cold_letters
+        available_letters = self.available_letters(warm_letters, cold_letters)
         frontier = [initial_state]
         while frontier:
             current = frontier.pop(0)
