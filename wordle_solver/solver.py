@@ -1,6 +1,6 @@
 import string
 
-class Wordle:
+class Solver:
     def __init__(self, word_list, alphabet=string.ascii_lowercase):
         self.master_word_list = set(word_list)
         self.word_length = len(word_list[0])
@@ -55,5 +55,5 @@ if __name__ == '__main__':
     cold_letters = set(list(args.c))
     with open('words.txt') as f:
         word_list = [line.strip() for line in f.readlines()]
-    wordle = Wordle(word_list)
-    print(wordle.possible_answers(initial_state, warm_letters, cold_letters))
+    solver = Solver(word_list)
+    print(solver.possible_answers(initial_state, warm_letters, cold_letters))
