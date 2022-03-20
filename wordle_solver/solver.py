@@ -10,8 +10,7 @@ class Solver:
         all_available_letters = set(self.alphabet) - cold_letters
         letters_by_slot = [all_available_letters.copy() for _ in range(self.word_length)]
         for i, to_remove_from_slot in enumerate(warm_letters):
-            if to_remove_from_slot:
-                letters_by_slot[i] -= to_remove_from_slot
+            letters_by_slot[i] -= to_remove_from_slot
         return letters_by_slot
 
     def transition(self, state, letter, index):
