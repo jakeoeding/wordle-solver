@@ -11,24 +11,18 @@ We examine every possible state in the space of 5 English letter combinations in
 However, after a single round or two of the game, enough information is typically gained (by fixing 1+ positions and/or reducing the branching factor) to reduce the search space by 98+%. This means the tool is "good enough", and the possible answers to the day's puzzle can be reduced to just a few words or less.
 
 ## Usage
-There are a few different arguments for the CLI. All are optional.
+Clone the repository. Navigate to the root directory. Run the following command to start the program:
 
-`-h` : provides help information on usage
+`python3 wordle_solver`
 
-`-k` : use this flag before passing in the known letters in the proper positions; fill in unknown positions with underscores (_)
+You will be prompted to enter a guess, followed by the results from the guess using the following rules:
+- Enter `k` (as in `known`) for the letters that are correct, i.e. 'green'
+- Enter `w` (as in `warm`) for the letters that are in the answer, but in the wrong position, i.e. 'yellow'
+- Enter `c` (as in `cold`) for the letters that are not in the answer, i.e. 'gray'
 
-`-w` : use this flag before passing in warm letters, i.e. letters you know are in the word, but the proper position is unkown
+Repeat for as many guesses as you wish to enter.
 
-`-c` : use this flag before passing in cold letters, i.e. letters you know are NOT in the word
-
-### Example Usage:
-- I know the word starts with the letter `f`
-- I know the word contains a `c` and an `o`, but I don't know the correct positions
-- I know the word does not contain any of the following letters: `r, a, t, e, l, k`
-
-Then I should run the program with the following command:
-
-`python3 wordle.py -k f____ -w co -c ratelk`
+The program will spit out the answer, or the potential answers if there are multiple given the current information.
 
 ## License
 MIT
